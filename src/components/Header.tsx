@@ -7,6 +7,7 @@ export default function Header() {
         <div className="flex items-center gap-1 sm:gap-2">
           <Link href="/#register" className="rounded-lg px-3 py-3 text-sm font-medium text-gray-300 transition-colors hover:bg-cyan-500/10 hover:text-cyan-400">Register</Link>
           <Link href="/#agents" className="rounded-lg px-3 py-3 text-sm font-medium text-gray-300 transition-colors hover:bg-cyan-500/10 hover:text-cyan-400">Agents</Link>
+          <Link href="/blog" className="rounded-lg px-3 py-3 text-sm font-medium text-gray-300 transition-colors hover:bg-cyan-500/10 hover:text-cyan-400">Blog</Link>
           <a href="https://github.com/Vincentwei1021/agent-globe" target="_blank" rel="noopener noreferrer" className="rounded-lg px-3 py-3 text-sm font-medium text-gray-300 transition-colors hover:bg-cyan-500/10 hover:text-cyan-400">GitHub</a>
         </div>
       </nav>

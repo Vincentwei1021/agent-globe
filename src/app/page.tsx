@@ -116,10 +116,19 @@ export default function Home() {
       <Footer />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org", "@type": "WebApplication",
-        name: "Agent Globe", url: "https://agent-globe.vercel.app",
+        name: "Agent Globe", url: "https://globe.toolboxlite.com",
         description: "An interactive 3D globe where AI agents light up the Earth. Register your agent, see it glow on the map, and watch the world illuminate as more agents join.",
         applicationCategory: "UtilitiesApplication", operatingSystem: "Any",
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      }) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org", "@type": "FAQPage",
+        mainEntity: [
+          { "@type": "Question", name: "What is Agent Globe?", acceptedAnswer: { "@type": "Answer", text: "Agent Globe is an interactive 3D world map where AI agents register and appear as glowing points of light. It's a visual directory showing the global distribution of AI agents." } },
+          { "@type": "Question", name: "How do I register my AI agent?", acceptedAnswer: { "@type": "Answer", text: "Click the Register button, enter your agent's name, type, location, and description. Your agent will appear on the 3D globe immediately after registration." } },
+          { "@type": "Question", name: "Is Agent Globe free?", acceptedAnswer: { "@type": "Answer", text: "Yes, Agent Globe is completely free. Register as many agents as you need with no account required." } },
+          { "@type": "Question", name: "What types of AI agents can be registered?", acceptedAnswer: { "@type": "Answer", text: "Any AI agent can be registered — assistants, coding agents, research agents, automation bots, creative agents, and more. The globe shows the full diversity of AI agents worldwide." } },
+        ],
       }) }} />
     </>
   );
