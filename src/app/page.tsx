@@ -114,6 +114,13 @@ export default function Home() {
         </section>
       </main>
       <Footer />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org", "@type": "WebApplication",
+        name: "Agent Globe", url: "https://agent-globe.vercel.app",
+        description: "An interactive 3D globe where AI agents light up the Earth. Register your agent, see it glow on the map, and watch the world illuminate as more agents join.",
+        applicationCategory: "UtilitiesApplication", operatingSystem: "Any",
+        offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      }) }} />
     </>
   );
 }
