@@ -1,5 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Bot, Sparkles, RotateCcw, MapPin } from "lucide-react";
 import type { GeoInfo } from "@/types";
 import { detectLocation } from "@/lib/geolocation";
 import { addAgent } from "@/lib/storage";
@@ -65,61 +70,103 @@ export default function RegisterForm({ onRegistered }: RegisterFormProps) {
 
   if (success) {
     return (
-      <div className="rounded-2xl border border-cyan-500/30 bg-space-800/60 p-6 text-center backdrop-blur-sm animate-fade-in">
-        <div className="text-4xl mb-3">🎉</div>
-        <h3 className="text-xl font-bold text-cyan-400">Agent Registered!</h3>
-        <p className="mt-2 text-gray-400 text-sm">
-          <strong className="text-white">{name}</strong> is now glowing on the globe from {city}, {country}.
-        </p>
-        <button onClick={() => { setSuccess(false); setName(""); setDescription(""); }} className="mt-4 rounded-full border border-cyan-500/30 px-5 py-2.5 text-sm font-medium text-cyan-400 transition-colors hover:bg-cyan-500/10">
-          Register Another Agent
-        </button>
-      </div>
+      <Card className="card-glow animate-fade-up border-border/50 bg-card/60 backdrop-blur-sm">
+        <CardContent className="p-6 text-center">
+          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+            <Sparkles className="h-6 w-6 text-primary" />
+          </div>
+          <h3 className="text-xl font-bold text-primary">Agent Registered!</h3>
+          <p className="mt-2 text-sm text-muted-foreground">
+            <strong className="text-foreground">{name}</strong> is now glowing on the globe from {city}, {country}.
+          </p>
+          <Button
+            variant="outline"
+            className="mt-4"
+            onClick={() => { setSuccess(false); setName(""); setDescription(""); }}
+          >
+            <RotateCcw className="mr-2 h-4 w-4" />
+            Register Another Agent
+          </Button>
+        </CardContent>
+      </Card>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl border border-cyan-500/20 bg-space-800/60 p-6 backdrop-blur-sm">
-      <h3 className="text-lg font-bold text-white mb-1">🤖 Register Your Agent</h3>
-      <p className="text-sm text-gray-400 mb-5">Light up your spot on the globe</p>
+    <Card className="card-glow animate-fade-up border-border/50 bg-card/60 backdrop-blur-sm">
+      <CardHeader className="pb-4">
+        <CardTitle className="flex items-center gap-2 text-lg">
+          <Bot className="h-5 w-5 text-primary" />
+          Register Your Agent
+        </CardTitle>
+        <CardDescription>Light up your spot on the globe</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {error && (
+            <div className="rounded-lg bg-destructive/10 border border-destructive/30 px-4 py-2 text-sm text-destructive">
+              {error}
+            </div>
+          )}
 
-      {error && <div className="mb-4 rounded-lg bg-red-500/10 border border-red-500/30 px-4 py-2 text-sm text-red-400">{error}</div>}
-
-      <div className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-1">Agent Name *</label>
-          <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="e.g. GPT-4 Navigator" maxLength={50}
-            className="w-full rounded-lg border border-gray-700 bg-space-900 px-4 py-3 text-sm text-white placeholder-gray-500 outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500" />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-1">Description <span className="text-gray-500">(optional)</span></label>
-          <input type="text" value={description} onChange={e => setDescription(e.target.value)} placeholder="What does your agent do?" maxLength={120}
-            className="w-full rounded-lg border border-gray-700 bg-space-900 px-4 py-3 text-sm text-white placeholder-gray-500 outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500" />
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">City *</label>
-            <input type="text" value={city} onChange={e => setCity(e.target.value)} placeholder={detecting ? "Detecting..." : "City"}
-              className="w-full rounded-lg border border-gray-700 bg-space-900 px-4 py-3 text-sm text-white placeholder-gray-500 outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500" />
+          <div className="space-y-2">
+            <Label htmlFor="agent-name">Agent Name *</Label>
+            <Input
+              id="agent-name"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              placeholder="e.g. GPT-4 Navigator"
+              maxLength={50}
+            />
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">Country *</label>
-            <input type="text" value={country} onChange={e => setCountry(e.target.value)} placeholder={detecting ? "Detecting..." : "Country"}
-              className="w-full rounded-lg border border-gray-700 bg-space-900 px-4 py-3 text-sm text-white placeholder-gray-500 outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500" />
+
+          <div className="space-y-2">
+            <Label htmlFor="agent-desc">
+              Description <span className="text-muted-foreground">(optional)</span>
+            </Label>
+            <Input
+              id="agent-desc"
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+              placeholder="What does your agent do?"
+              maxLength={120}
+            />
           </div>
-        </div>
 
-        {detecting && (
-          <p className="text-xs text-cyan-400 animate-pulse">📡 Detecting your location via IP...</p>
-        )}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-2">
+              <Label htmlFor="agent-city">City *</Label>
+              <Input
+                id="agent-city"
+                value={city}
+                onChange={e => setCity(e.target.value)}
+                placeholder={detecting ? "Detecting..." : "City"}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="agent-country">Country *</Label>
+              <Input
+                id="agent-country"
+                value={country}
+                onChange={e => setCountry(e.target.value)}
+                placeholder={detecting ? "Detecting..." : "Country"}
+              />
+            </div>
+          </div>
 
-        <button type="submit" disabled={submitting}
-          className="w-full rounded-lg bg-cyan-600 px-4 py-3 text-sm font-bold text-white transition-all hover:bg-cyan-500 disabled:opacity-50 disabled:cursor-not-allowed">
-          {submitting ? "Registering..." : "⚡ Light Up the Globe"}
-        </button>
-      </div>
-    </form>
+          {detecting && (
+            <p className="flex items-center gap-1.5 text-xs text-primary animate-pulse">
+              <MapPin className="h-3 w-3" />
+              Detecting your location via IP...
+            </p>
+          )}
+
+          <Button type="submit" className="w-full" disabled={submitting}>
+            <Sparkles className="mr-2 h-4 w-4" />
+            {submitting ? "Registering..." : "Light Up the Globe"}
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
   );
 }

@@ -1,11 +1,11 @@
 import FeedbackWidget from "@/components/FeedbackWidget";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { ScrollReveal } from "@/components/ScrollReveal";
+import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Plus_Jakarta_Sans, Inter, Geist } from "next/font/google";
+import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
-
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-heading", weight: ["400","500","600","700","800"] });
 const inter = Inter({ subsets: ["latin"], variable: "--font-body" });
@@ -45,13 +45,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={cn("font-sans", geist.variable)}>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5881105388002876" crossOrigin="anonymous" strategy="afterInteractive" />
       </head>
       <body className={`${jakarta.variable} ${inter.variable} font-sans antialiased`}>
-        {children}
-        <FeedbackWidget />
+        <ThemeProvider>
+          {children}
+          <FeedbackWidget />
+          <ScrollReveal />
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

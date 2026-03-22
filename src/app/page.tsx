@@ -6,6 +6,8 @@ import RegisterForm from "@/components/RegisterForm";
 import StatsBar from "@/components/StatsBar";
 import AgentList from "@/components/AgentList";
 import Footer from "@/components/Footer";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import { getAllAgents, getStats } from "@/lib/storage";
 import type { Agent, GlobeStats } from "@/types";
 
@@ -13,7 +15,7 @@ const GlobeView = dynamic(() => import("@/components/GlobeView"), { ssr: false, 
   <div className="flex items-center justify-center" style={{ height: 500 }}>
     <div className="text-center">
       <div className="text-4xl mb-3 animate-float">🌍</div>
-      <p className="text-cyan-400 animate-pulse">Loading globe...</p>
+      <p className="text-primary animate-pulse">Loading globe...</p>
     </div>
   </div>
 ) });
@@ -34,7 +36,6 @@ export default function Home() {
   const handleRegistered = (id: string) => {
     refresh();
     setHighlightId(id);
-    // Auto-clear highlight after 5s
     setTimeout(() => setHighlightId(null), 5000);
   };
 
@@ -43,16 +44,16 @@ export default function Home() {
       <Header />
       <main className="min-h-screen">
         {/* Hero */}
-        <section className="px-4 pt-8 pb-4 sm:px-6 sm:pt-12 text-center">
-          <div className="mx-auto max-w-3xl animate-fade-in">
-            <div className="mb-3 inline-block rounded-full border border-cyan-500/20 bg-cyan-500/10 px-4 py-1.5 text-sm font-semibold text-cyan-400">
+        <section className="px-4 pt-10 pb-4 sm:px-6 sm:pt-14 text-center">
+          <div className="mx-auto max-w-3xl">
+            <Badge variant="secondary" className="animate-fade-up mb-4 bg-primary/10 text-primary border-primary/20 px-4 py-1.5 text-sm font-semibold">
               {stats.totalAgents} agents lighting up {stats.totalCountries} countries
-            </div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl">
-              Light Up the World with<br />
-              <span className="text-cyan-400">AI Agents</span>
+            </Badge>
+            <h1 className="animate-fade-up delay-1 text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl font-[family-name:var(--font-heading)]">
+              Light Up the World with{" "}
+              <span className="text-primary">AI Agents</span>
             </h1>
-            <p className="mt-3 text-base text-gray-400 sm:text-lg">
+            <p className="animate-fade-up delay-2 mt-4 text-base text-muted-foreground sm:text-lg max-w-2xl mx-auto">
               Register your AI agent. Watch it glow on the 3D globe. See the world illuminate as more agents join.
             </p>
           </div>
@@ -65,19 +66,30 @@ export default function Home() {
 
         {/* Globe */}
         <section className="px-4 py-4 sm:px-6">
-          <GlobeView agents={agents} highlightId={highlightId} />
+          <div className="animate-fade-in delay-3">
+            <GlobeView agents={agents} highlightId={highlightId} />
+          </div>
           {/* Color legend */}
-          <div className="flex flex-wrap justify-center gap-4 mt-4 text-xs text-gray-400">
-            <span><span className="inline-block w-3 h-3 rounded-full bg-cyan-400 mr-1" />Just now</span>
-            <span><span className="inline-block w-3 h-3 rounded-full bg-blue-400 mr-1" />Today</span>
-            <span><span className="inline-block w-3 h-3 rounded-full bg-purple-400 mr-1" />This week</span>
-            <span><span className="inline-block w-3 h-3 rounded-full bg-amber-400 mr-1" />This month</span>
-            <span><span className="inline-block w-3 h-3 rounded-full bg-red-400 mr-1" />Older</span>
+          <div className="flex flex-wrap justify-center gap-3 mt-4">
+            {[
+              { color: "bg-cyan-400", label: "Just now" },
+              { color: "bg-blue-400", label: "Today" },
+              { color: "bg-purple-400", label: "This week" },
+              { color: "bg-amber-400", label: "This month" },
+              { color: "bg-red-400", label: "Older" },
+            ].map((item) => (
+              <Badge key={item.label} variant="outline" className="gap-1.5 border-border/50 text-muted-foreground font-normal">
+                <span className={`inline-block h-2.5 w-2.5 rounded-full ${item.color}`} />
+                {item.label}
+              </Badge>
+            ))}
           </div>
         </section>
 
+        <Separator className="mx-auto max-w-5xl opacity-50" />
+
         {/* Register + Agent List */}
-        <section id="register" className="px-4 py-8 sm:px-6 sm:py-12">
+        <section id="register" className="px-4 py-10 sm:px-6 sm:py-14">
           <div className="mx-auto max-w-5xl grid gap-6 lg:grid-cols-2">
             <RegisterForm onRegistered={handleRegistered} />
             <div id="agents">
@@ -86,27 +98,29 @@ export default function Home() {
           </div>
         </section>
 
+        <Separator className="mx-auto max-w-5xl opacity-50" />
+
         {/* About / SEO content */}
-        <section className="px-4 py-12 sm:px-6 sm:py-16">
+        <section className="px-4 py-14 sm:px-6 sm:py-20">
           <div className="mx-auto max-w-3xl">
-            <h2 className="text-2xl font-bold text-white text-center mb-6">About Agent Globe</h2>
-            <div className="space-y-4 text-gray-400 leading-relaxed">
-              <p>
-                <strong className="text-white">Agent Globe</strong> is an interactive 3D visualization of the global AI agent ecosystem. Every glowing point on the globe represents a registered AI agent — from autonomous coding assistants and research bots to creative AI companions and data analysis tools.
+            <h2 className="reveal text-2xl font-bold text-center mb-8 font-[family-name:var(--font-heading)]">About Agent Globe</h2>
+            <div className="space-y-6 text-muted-foreground leading-relaxed">
+              <p className="reveal">
+                <strong className="text-foreground">Agent Globe</strong> is an interactive 3D visualization of the global AI agent ecosystem. Every glowing point on the globe represents a registered AI agent — from autonomous coding assistants and research bots to creative AI companions and data analysis tools.
               </p>
-              <p>
-                As the world of <strong className="text-white">AI agents</strong> expands rapidly in 2026, Agent Globe provides a unique bird&apos;s-eye view of where these digital workers are deployed around the planet. The visualization uses <strong className="text-white">WebGL-powered 3D rendering</strong> to create an immersive experience where you can rotate, zoom, and explore the globe to discover agents in different regions.
+              <p className="reveal">
+                As the world of <strong className="text-foreground">AI agents</strong> expands rapidly in 2026, Agent Globe provides a unique bird&apos;s-eye view of where these digital workers are deployed around the planet. The visualization uses <strong className="text-foreground">WebGL-powered 3D rendering</strong> to create an immersive experience where you can rotate, zoom, and explore the globe to discover agents in different regions.
               </p>
-              <h3 className="text-lg font-bold text-white pt-2">How It Works</h3>
-              <p>
-                When you visit Agent Globe, your location is automatically detected via your IP address (no personal data is stored). You can then register your AI agent with a name and optional description. Your agent appears as a glowing point on the globe, with colors indicating how recently it was registered — <strong className="text-cyan-400">cyan for brand new</strong>, <strong className="text-blue-400">blue for today</strong>, <strong className="text-purple-400">purple for this week</strong>, and warmer colors for older registrations.
+              <h3 className="reveal text-lg font-bold text-foreground pt-2">How It Works</h3>
+              <p className="reveal">
+                When you visit Agent Globe, your location is automatically detected via your IP address (no personal data is stored). You can then register your AI agent with a name and optional description. Your agent appears as a glowing point on the globe, with colors indicating how recently it was registered — <strong className="text-primary">cyan for brand new</strong>, <strong className="text-blue-400">blue for today</strong>, <strong className="text-purple-400">purple for this week</strong>, and warmer colors for older registrations.
               </p>
-              <h3 className="text-lg font-bold text-white pt-2">The AI Agent Revolution</h3>
-              <p>
+              <h3 className="reveal text-lg font-bold text-foreground pt-2">The AI Agent Revolution</h3>
+              <p className="reveal">
                 2026 marks a turning point in AI deployment. No longer confined to chat interfaces, AI agents now autonomously handle tasks ranging from code review and content creation to supply chain optimization and scientific research. Agent Globe captures this global phenomenon in real-time, creating a living map of the AI agent ecosystem.
               </p>
-              <h3 className="text-lg font-bold text-white pt-2">Privacy First</h3>
-              <p>
+              <h3 className="reveal text-lg font-bold text-foreground pt-2">Privacy First</h3>
+              <p className="reveal">
                 Agent Globe runs entirely in your browser. Agent registrations are stored locally in your browser&apos;s localStorage. No personal information is collected or transmitted to any server. Your IP is used only to determine approximate city-level location, and is not stored.
               </p>
             </div>

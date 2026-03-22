@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Blog — AI Agents & Globe Guides | Agent Globe",
@@ -30,18 +33,22 @@ export default function BlogPage() {
       <Header />
       <main className="px-4 py-12 sm:px-6 sm:py-16">
         <div className="mx-auto max-w-3xl">
-          <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Blog</h1>
-          <p className="mt-2 text-gray-400">Guides on AI agents, agent directories, and the global AI ecosystem.</p>
-          <div className="mt-10 space-y-8">
+          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl font-[family-name:var(--font-heading)]">Blog</h1>
+          <p className="mt-2 text-muted-foreground">Guides on AI agents, agent directories, and the global AI ecosystem.</p>
+          <div className="mt-10 space-y-6">
             {posts.map((post) => (
-              <article key={post.slug} className="rounded-xl border border-cyan-500/20 bg-white/5 p-6 shadow-sm transition-shadow hover:shadow-cyan-500/10 hover:border-cyan-500/40">
-                <time className="text-xs font-medium text-gray-500">{post.date}</time>
-                <h2 className="mt-2 text-xl font-bold text-white">
-                  <Link href={`/blog/${post.slug}`} className="hover:text-cyan-400">{post.title}</Link>
-                </h2>
-                <p className="mt-2 text-sm leading-relaxed text-gray-400">{post.excerpt}</p>
-                <Link href={`/blog/${post.slug}`} className="mt-3 inline-block text-sm font-semibold text-cyan-400 hover:text-cyan-300">Read more →</Link>
-              </article>
+              <Card key={post.slug} className="card-glow border-border/50 bg-card/60 backdrop-blur-sm transition-colors">
+                <CardContent className="p-6">
+                  <Badge variant="secondary" className="text-xs">{post.date}</Badge>
+                  <h2 className="mt-3 text-xl font-bold">
+                    <Link href={`/blog/${post.slug}`} className="hover:text-primary transition-colors">{post.title}</Link>
+                  </h2>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{post.excerpt}</p>
+                  <Link href={`/blog/${post.slug}`} className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
+                    Read more <ArrowRight className="h-3 w-3" />
+                  </Link>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>
