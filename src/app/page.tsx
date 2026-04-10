@@ -1,4 +1,5 @@
 "use client";
+import AdBanner from "@/components/AdBanner";
 import { useState, useEffect, useCallback } from "react";
 import dynamic from "next/dynamic";
 import Header from "@/components/Header";
@@ -58,6 +59,7 @@ export default function Home() {
             </p>
           </div>
         </section>
+        <AdBanner className="mx-auto max-w-5xl px-4 py-4" />
 
         {/* Stats */}
         <section className="px-4 py-4 sm:px-6">
@@ -126,6 +128,7 @@ export default function Home() {
             </div>
           </div>
         </section>
+        <AdBanner className="mx-auto max-w-5xl px-4 py-6" />
       </main>
       <Footer />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
